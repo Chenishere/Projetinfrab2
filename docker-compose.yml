@@ -21,23 +21,17 @@ services:
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}':3000'
       - "222:22"
+  database:
+    image: "mariadb:10.3"
+    container_name: database
+    restart: always
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
-
-version: '3.3'
-services:
-
-    #serveur de base de donnees
-    database:
-      image: 'mariadb:10.3'
-      container_name: database
-      restart: always
-      environment:
-          MYSQL_USER: ${MYSQL_USER}
-          MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-          MYSQL_DATABASE: ${MYSQL_DATABASE}
-          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        
-      ports:
-          - ${DATABASE_PORT}:${DATABASE_PORT}
-      volumes:
-          - /mariadb/:/var/lib/mysql/
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    volumes:
+      - /mariadb/:/var/lib/mysql/
