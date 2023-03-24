@@ -19,7 +19,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "8080:3000"
+      - ${DATABASE_PORT}:${DATABASE_PORT}':3000'
       - "222:22"
 
 
@@ -32,12 +32,12 @@ services:
       container_name: database
       restart: always
       environment:
-          MYSQL_USER: quoi
-          MYSQL_PASSWORD: feur
-          MYSQL_DATABASE: api
-          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_USER: ${MYSQL_USER}
+          MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+          MYSQL_DATABASE: ${MYSQL_DATABASE}
+          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         
       ports:
-          - '3306:3306'
+          - ${DATABASE_PORT}:${DATABASE_PORT}
       volumes:
           - /mariadb/:/var/lib/mysql/
