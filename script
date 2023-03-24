@@ -1,0 +1,42 @@
+#!/bin/bash
+
+sudo useradd quoi -m -s /bin/bash
+echo "feur" | sudo passwd --stdin quoi
+
+#Install de gitea 
+su quoi
+wget -O gitea https://dl.gitea.com/gitea/1.18.5/gitea-1.18.5-linux-amd64
+chmod +x gitea
+
+# Définir les autorisations pour l'utilisateur "quoi" sur les fichiers spécifiques
+sudo setfacl -R -m u:quoi:rw– /gitea:/data
+sudo setfacl -R -m u:quoi:rw– /etc/timezone:/etc/localtime
+sudo setfacl -R -m u:quoi:rw– /mariadb/:/var/lib/mysql/
+
+#Creation du dossier dans gitea pour les docckers compose
+mkdir /gitea/dockconf
+
+sudo usermod -aG docker quoi
+
+#Git pull la conf docker
+
+
+
+# Docker-compose
+sudo docker-compose up -d
+
+# Fire-wall
+sudo ufw allow 8080/tcp
+sudo ufw allow 222/tcp
+sudo ufw enable
+
+# Fail2ban
+sudo apt-get update
+sudo apt-get install -y fail2ban
+
+#Log
+source please_log.sh
+
+Log_Open
+echo "Whatever I execute here will be logged to $LOGFILE"
+Log_Close
