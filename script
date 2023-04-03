@@ -19,24 +19,75 @@ mkdir /gitea/dockconf
 sudo usermod -aG docker quoi
 
 #Git pull la conf docker
-
+git pull https://github.com/Chenishere/Projetinfrab2.git 
 
 
 # Docker-compose
 sudo docker-compose up -d
 
-# Fire-wall
-sudo ufw allow 8080/tcp
-sudo ufw allow 222/tcp
-sudo ufw enable
 
-# Fail2ban
-sudo apt-get update
-sudo apt-get install -y fail2ban
+
+
+# Partie firewall Fire-wall
+iptables -F
+
+# Set default policies to deny all traffic
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP
+
+# Allow loopback traffic
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# Allow established and related traffic
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Autorise le SSH (22 car par default)
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
+
+# Autorise HTTP et HTTPS
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 80 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 443 -j ACCEPT
+
+# Autorise DNS
+iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+iptables -A INPUT -p udp --sport 53 -j ACCEPT
+
+# Sauvegarde
+iptables-save > /etc/iptables/rules.1
+
+
+
+
+# Partie Fail2ban
+# Installation de fail2ban
+apt-get install -y fail2ban
+
+# Création d'une copie du fichier de configuration d'origine
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+# Configuration du fichier jail.local
+cat << EOF > /etc/fail2ban/jail.local
+[DEFAULT]
+bantime = 3600
+banaction = iptables-multiport
+destemail = yanice.bousseria@ynov.com
+sender = #adresse e-mail de l'expéditeur 
+
+[ssh]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+EOF
+
+# Redémarrage du service fail2ban
+service fail2ban restart
 
 #Log
-source please_log.sh
-
-Log_Open
-echo "Whatever I execute here will be logged to $LOGFILE"
-Log_Close
