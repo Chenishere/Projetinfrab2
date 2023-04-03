@@ -37,6 +37,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     ports:
-      - "${DATABASE_PORT}:${DATABASE_PORT}"
+      - "${DATABASE_PORT}:3306"
     volumes:
       - /mariadb/:/var/lib/mysql/
