@@ -6,6 +6,8 @@ networks:
 
 services:
   server:
+    env_file:
+      - .env
     image: gitea/gitea:1.18.5
     container_name: gitea
     environment:
@@ -19,9 +21,12 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - ${DATABASE_PORT}:${DATABASE_PORT}':3000'
+      - "${DATABASE_PORT}:3000"
       - "222:22"
+
   database:
+    env_file:
+      - .env
     image: "mariadb:10.3"
     container_name: database
     restart: always
@@ -32,6 +37,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     ports:
-      - ${DATABASE_PORT}:${DATABASE_PORT}
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     volumes:
       - /mariadb/:/var/lib/mysql/
