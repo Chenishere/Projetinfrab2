@@ -29,6 +29,7 @@ sudo docker-compose up -d
 
 
 # Partie firewall Fire-wall
+sudo apt-get fail2ban
 iptables -F
 
 # Set default policies to deny all traffic
