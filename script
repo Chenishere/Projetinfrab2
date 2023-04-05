@@ -28,8 +28,7 @@ sudo docker-compose up -d
 
 
 
-# Partie firewall Fire-wall
-sudo apt-get fail2ban
+# Partie firewall 
 iptables -F
 
 # Set default policies to deny all traffic
@@ -59,8 +58,7 @@ iptables -A OUTPUT -p tcp --sport 443 -j ACCEPT
 iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
 iptables -A INPUT -p udp --sport 53 -j ACCEPT
 
-# Sauvegarde
-iptables-save > /etc/iptables/rules.1
+
 
 
 
@@ -78,7 +76,7 @@ cat << EOF > /etc/fail2ban/jail.local
 bantime = 3600
 banaction = iptables-multiport
 destemail = yanice.bousseria@ynov.com
-sender = #adresse e-mail de l'expéditeur 
+sender = aymeric.lauvaud@ynov.com
 
 [ssh]
 enabled = true
