@@ -31,16 +31,14 @@ sudo docker-compose up -d
 # Partie firewall 
 iptables -F
 
-# Set default policies to deny all traffic
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT DROP
 
-# Allow loopback traffic
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 
-# Allow established and related traffic
+
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
@@ -64,6 +62,7 @@ iptables -A INPUT -p udp --sport 53 -j ACCEPT
 
 
 # Partie Fail2ban
+
 # Installation de fail2ban
 apt-get install -y fail2ban
 
