@@ -43,5 +43,4 @@ Le service fonctionne en utilisant Docker pour créer un conteneur pour l'API. L
 Le script affiche également les informations relatives au conteneur, telles que son ID et son adresse IP.
 
 ### Conclusion
-
-Le projet d'autodéploiement d'une API sur serveur a été réalisé avec succès. Le script fourni simplifie considérablement le processus de déploiement pour les développeurs et peut être facilement intégré à un pipeline de déploiement continu.
+Nous avons choisi ce sujet car l'autodéploiement nous paraît etre une solution très intéressante et que les problématiques liées au sujet sont des problématiques qu'un Dev ou un étudiant comme nous pourrais rencontrer. De plus le déploiement d'un script et l’utilisation d'un docker nous semble etre des skills intéressant à integrer dans nos compétences.
